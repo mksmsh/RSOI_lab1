@@ -1,4 +1,4 @@
-name: CI for Person API
+name: CI and Deploy for Person API
 
 on:
   push:
@@ -28,3 +28,22 @@ jobs:
 
     - name: Run tests
       run: python manage.py test
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Log in to Railway
+      env:
+        RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      run: |
+        echo $RAILWAY_TOKEN | docker login -u <your-railway-username> --password-stdin registry.railway.app
+
+    - name: Build and Push Docker Image
+      run: |
+        docker build -t registry.railway.app/<your-project-id>/<your-service-name>:latest .
+        docker push registry.railway.app/<your-project-id>/<your-service-name>:latest
