@@ -4,14 +4,10 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -32,18 +28,13 @@ jobs:
   deploy:
     needs: build-and-test
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Log in to Railway
+    - name: Deploy to Railway
+      run: |
+        curl -sSL https://railway.app/cli | bash
+        railway up --yes
       env:
         RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-      run: |
-        echo $RAILWAY_TOKEN | docker login -u maksimka.mishura@mail.ru --password-stdin registry.railway.app
-
-    - name: Build and Push Docker Image
-      run: |
-        docker build -t registry.railway.app/beb67d51-7335-4b80-b6bc-cb321ccd3a0a/chic-warmth:latest .
-        docker push registry.railway.app/beb67d51-7335-4b80-b6bc-cb321ccd3a0a/chic-warmth:latest
