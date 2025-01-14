@@ -41,7 +41,7 @@ jobs:
       env:
         RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
       run: |
-        echo $RAILWAY_TOKEN | docker login -u maksimka.mishura@mail.ru --password-stdin registry.railway.app
+        echo $RAILWAY_TOKEN | docker login -u mksmsh --password-stdin registry.railway.app
 
     - name: Build and Push Docker Image
       run: |
