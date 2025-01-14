@@ -37,6 +37,6 @@ jobs:
 
     - name: Deploy to Railway
       run: |
-        railway up --service chic-warmth
+        railway up --service RSOI_lab1
       env:
         RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
