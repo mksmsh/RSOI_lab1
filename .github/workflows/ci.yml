@@ -32,9 +32,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Install Railway CLI
+      run: curl -fsSL https://railway.app/install.sh | sh
+
     - name: Deploy to Railway
       run: |
-        curl -sSL https://railway.app/cli | bash
         railway up --yes
       env:
         RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
